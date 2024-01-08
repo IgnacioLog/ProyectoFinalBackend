@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const settings = require("../config.js");
 
 // Importando rutas
-const userAuthRoutes = require("./router/userAuthRoutes");
-const productRoutes = require("./router/productRoutes");
-const cartRoutes = require("./router/cartRoutes");
-const blogRoutes = require("./router/blogRoutes");
+const authRoutes = require("./router/auth");
+const blogRoutes = require("./router/blog");
+const cartRoutes = require("./router/carts");
+const productRoutes = require("./router/products");
 
 // Creando una instancia de Express y un servidor HTTP
 const app = express();
@@ -32,10 +32,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas de la API
-app.use("/api/user-auth", userAuthRoutes);
-app.use("/api/items", productRoutes);
-app.use("/api/shopping-cart", cartRoutes);
-app.use("/api/article", blogRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/blog", blogRoutes);
+app.use("/api/carts", cartRoutes);
+app.use("/api/products", productRoutes);
 
 // Middleware para manejar errores
 app.use((error, req, res, next) => {
