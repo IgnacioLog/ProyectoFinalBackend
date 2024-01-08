@@ -1,60 +1,53 @@
 // Importando módulos necesarios
-const expressLib = require("express");
-const { Server: HttpsServer } = require("http");
-const crossOrigin = require("cors");
-const {
-  userAuthRoutes,
-  productRoutes,
-  cartRoutes,
-  blogRoutes,
-} = require("./router/index.js");
+const express = require("express");
+const http = require("http");
+const cors = require("cors");
+const mongoose = require('mongoose');
 const settings = require("../config.js");
-const mongoDB = require('mongoose');
+
+// Importando rutas
+const userAuthRoutes = require("./router/userAuthRoutes");
+const productRoutes = require("./router/productRoutes");
+const cartRoutes = require("./router/cartRoutes");
+const blogRoutes = require("./router/blogRoutes");
 
 // Creando una instancia de Express y un servidor HTTP
-const serverApp = expressLib();
-const httpsAppServer = new HttpsServer(serverApp);
-
-// Definiendo los orígenes permitidos para CORS
-const allowedOrigins = [
-  "http://localhost:3001",
-  "http://127.0.0.1:5184",
-  settings.WEB_APP_URL,
-];
+const app = express();
+const server = http.createServer(app);
 
 // Configuración de CORS
-const corsSettings = {
-  origin: function (source, cb) {
-    if (allowedOrigins.includes(source)) {
-      cb(null, true);
+const allowedOrigins = ["http://localhost:3001", "http://127.0.0.1:5184", settings.WEB_APP_URL];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
     } else {
-      cb(new Error("CORS Issue Detected"));
+      callback(new Error("CORS Issue Detected"));
     }
-  },
-};
-
-// Middleware para CORS (descomentar si se hacen solicitudes a través de POSTMAN)
-serverApp.use(crossOrigin(corsSettings));
+  }
+}));
 
 // Middlewares para parsear el cuerpo de las solicitudes
-serverApp.use(expressLib.json());
-serverApp.use(expressLib.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Rutas de la API
-serverApp.use("/api/user-auth", userAuthRoutes);
-serverApp.use("/api/items", productRoutes);
-serverApp.use("/api/shopping-cart", cartRoutes);
-serverApp.use("/api/article", blogRoutes);
+app.use("/api/user-auth", userAuthRoutes);
+app.use("/api/items", productRoutes);
+app.use("/api/shopping-cart", cartRoutes);
+app.use("/api/article", blogRoutes);
 
 // Middleware para manejar errores
-serverApp.use((error, req, res, next) => {
+app.use((error, req, res, next) => {
   if (error) {
     res.status(500).send(`Encountered an issue: ${error.message}`);
+  } else {
+    next();
   }
 });
 
 // Conexión a MongoDB
-mongoDB.connect('mongodb+srv://coderhouse:coderhouse@cluster0.qgm1sdk.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(settings.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -62,9 +55,10 @@ mongoDB.connect('mongodb+srv://coderhouse:coderhouse@cluster0.qgm1sdk.mongodb.ne
 .catch(error => console.error('Error connecting to MongoDB:', error));
 
 // Iniciando el servidor en el puerto 8080
-httpsAppServer.listen(8080, () => {
+server.listen(8080, () => {
   console.log('Server active at http://localhost:8080');
 });
 
 // Exportando la aplicación Express
-module.exports = serverApp;
+module.exports = app;
+
