@@ -7,7 +7,7 @@ const {
   checkUserAccountToken,
   deleteUser,
 } = require("../services/auth.js");
-const { generateAuthToken } = require("../middlewares/auth.js");
+const { createAuthToken } = require("../middlewares/auth.js");
 
 class Controller {
   // Método para obtener todos los usuarios
@@ -64,7 +64,7 @@ class Controller {
         username: userData.username,
         email: userData.email,
         phone: userData.phone,
-        token: generateAuthToken({ _id: userData._id }),
+        token: createAuthToken({ _id: userData._id }),
       };
 
       res.json({ ...user });
