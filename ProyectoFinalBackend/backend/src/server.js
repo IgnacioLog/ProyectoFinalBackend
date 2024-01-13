@@ -1,9 +1,11 @@
 // Importando módulos necesarios
+const debug = require('debug')('myapp');
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const mongoose = require('mongoose');
 const settings = require("../config.js");
+const { WEB_APP_URL } = require("../config.js"); // Modificamos esta línea
 
 // Importando rutas
 const authRoutes = require("./router/auth");

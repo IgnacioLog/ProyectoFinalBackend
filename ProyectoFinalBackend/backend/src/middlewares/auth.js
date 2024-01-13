@@ -47,8 +47,6 @@ const verifyRoles = (roles) => (req, res, next) => {
   next();
 };
 
-module.exports = { createAuthToken, verifyAuth, verifyRoles };
-
-
 // Exporta las funciones para que puedan ser utilizadas en otros módulos
-module.exports = { createAuthToken, verifyAuth };
+module.exports = { createAuthToken, verifyAuth: auth, verifyRoles };
+

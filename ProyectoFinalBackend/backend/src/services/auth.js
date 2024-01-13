@@ -85,7 +85,3 @@ class AuthService {
 
 // Exportando la clase AuthService para ser utilizada en otros módulos
 module.exports = AuthService;
-
-}
-
-module.exports = AuthService;
