@@ -1,11 +1,9 @@
 // Importando módulos necesarios
-const debug = require('debug')('myapp');
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const mongoose = require('mongoose');
 const settings = require("../config.js");
-const { WEB_APP_URL } = require("../config.js"); // Modificamos esta línea
 
 // Importando rutas
 const authRoutes = require("./router/auth");
@@ -49,7 +47,7 @@ app.use((error, req, res, next) => {
 });
 
 // Conexión a MongoDB
-mongoose.connect(settings.MONGO_URI, {
+mongoose.connect(settings.MONGO_DATA_BASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -63,4 +61,3 @@ server.listen(8080, () => {
 
 // Exportando la aplicación Express
 module.exports = app;
-

@@ -1,7 +1,7 @@
 // Importando módulos necesarios
 const { Router } = require("express");
 const AuthController = require("../controllers/auth.js");
-const { auth } = require("../middlewares/auth.js");
+const { verifyAuth } = require("../middlewares/auth.js");
 
 // Creando una nueva instancia de Router
 const router = Router();
@@ -10,7 +10,7 @@ const router = Router();
 const authController = new AuthController();
 
 // Ruta para autenticar al usuario. Se requiere autenticación previa (middleware 'auth')
-router.get("/", auth, authController.authenticateUser);
+router.get("/", verifyAuth, authController.authenticateUser);
 
 // Ruta para obtener todos los usuarios. No se requiere autenticación previa
 router.get("/all", authController.getAll);
@@ -22,7 +22,7 @@ router.post("/register", authController.registerUser);
 router.post("/login", authController.login);
 
 // Ruta para obtener información del usuario actual
-router.get('/current', auth, (req, res) => {
+router.get('/current', verifyAuth, (req, res) => {
     // Devuelve un DTO del usuario con la información necesaria
     // ...
   });
