@@ -46,13 +46,14 @@ app.use((error, req, res, next) => {
   }
 });
 
+// Depuración para verificar la URL de MongoDB
+console.log('MongoDB URL:', settings.MONGO_DATA_BASE_URL);
+
 // Conexión a MongoDB
-mongoose.connect(settings.MONGO_DATA_BASE_URL, {
+mongoose.connect('mongodb+srv://coderhouse:coderhouse@cluster0.qgm1sdk.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch(error => console.error('Error connecting to MongoDB:', error));
 
 // Iniciando el servidor en el puerto 8080
 server.listen(8080, () => {
@@ -61,3 +62,4 @@ server.listen(8080, () => {
 
 // Exportando la aplicación Express
 module.exports = app;
+
