@@ -1,5 +1,5 @@
 // Importando módulos necesarios
-const dotenv = require("dotenv");
+require("dotenv").config();
 const pathModule = require("path");
 const argumentParser = require("minimist");
 
@@ -15,9 +15,9 @@ const { envSetting } = argumentParser(process.argv.slice(2), configOptions);
 // Construyendo el nombre del archivo .env basado en el entorno
 const envFile = `${envSetting}.env`;
 
-// Si el archivo es 'dev.env', configuramos 'dotenv' para usar ese archivo
+// configuramos 'dotenv' para usar ese archivo
 if (envFile === "dev.env") {
-  dotenv.config({
+  require("dotenv").config({
     path: pathModule.resolve(process.cwd(), envFile),
   });
 }
@@ -38,5 +38,5 @@ module.exports = {
   MAIL_PASS: process.env.MAIL_PASS,
   FRONTEND_URL: process.env.FRONTEND_URL,
   SENDGRID_API_KEY: process.env.SENDGRID_API_KEY,
-  SENDGRID_USER: process.env.SENDGRID_USER
-}
+  SENDGRID_USER: process.env.SENDGRID_USER,
+};
