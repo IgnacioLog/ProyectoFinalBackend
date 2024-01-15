@@ -1,8 +1,13 @@
 // Importando módulos necesarios
+const path = require('path');
 const express = require("express");
 const http = require("http");
 const cors = require("cors");
 const mongoose = require('mongoose');
+
+// Cargando variables de entorno desde la ubicación correcta
+require('dotenv').config({ path: path.join(__dirname, '../env') });
+
 const settings = require("../config.js");
 
 // Importando rutas
@@ -46,19 +51,20 @@ app.use((error, req, res, next) => {
   }
 });
 
-// Depuración para verificar la URL de MongoDB
-console.log('MongoDB URL:', settings.MONGO_DATA_BASE_URL);
+// Conexión a MongoDB y arranque del servidor
+mongoose.connect(process.env.MONGO_DATA_BASE_URL)
+  .then(() => {
+    console.log("Succesfully connected to database");
 
-// Conexión a MongoDB
-mongoose.connect('mongodb+srv://coderhouse:coderhouse@cluster0.qgm1sdk.mongodb.net/?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-
-// Iniciando el servidor en el puerto 8080
-server.listen(8080, () => {
-  console.log('Server active at http://localhost:8080');
-});
+    // Iniciando el servidor en el puerto 8080
+    server.listen(8080, () => {
+      console.log('Server active at http://localhost:8080');
+    });
+  })
+  .catch((err) => {
+    console.error(`Connection to database failed, ERROR: ${err.message}`);
+    process.exit(1); // Detiene la ejecución del servidor en caso de error
+  });
 
 // Exportando la aplicación Express
 module.exports = app;
