@@ -68,4 +68,3 @@ mongoose.connect(process.env.MONGO_DATA_BASE_URL)
 
 // Exportando la aplicación Express
 module.exports = app;
-
