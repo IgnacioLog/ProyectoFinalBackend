@@ -1,7 +1,5 @@
-// Importa la biblioteca jwt, que se utiliza para trabajar con JSON Web Tokens
-const jwt = require("jsonwebtoken");
-// Importa el archivo de configuración
-const config = require("../../config.js");
+import jwt from "jsonwebtoken";
+import config from "../../config.js";
 
 // Función para crear un token de autenticación
 const createAuthToken = (payload) => {
@@ -12,14 +10,14 @@ const createAuthToken = (payload) => {
 };
 
 // Middleware para verificar la autenticación
-const verifyAuth = (req, resp, proceed) => {
+const verifyAuth = (req, res, next) => {
   // Obtiene el encabezado de autorización de la solicitud
   const authHeader = req.headers.authorization;
 
   // Si no hay encabezado de autorización, devuelve un error
   if (!authHeader) {
-    const errorMsg = new Error("Invalid token");
-    return resp.status(401).json({ message: errorMsg.message });
+    const errorMsg = new Error("Token inválido");
+    return res.status(401).json({ mensaje: errorMsg.message });
   }
 
   // Extrae el token JWT del encabezado de autorización
@@ -29,24 +27,22 @@ const verifyAuth = (req, resp, proceed) => {
   jwt.verify(jwtToken, config.JWT_PRIVATE_KEY, (error, decodedToken) => {
     // Si hay un error en la verificación, devuelve un error
     if (error) {
-      return resp.status(403).json({ message: "Unauthorized access" });
+      return res.status(403).json({ mensaje: "Acceso no autorizado" });
     }
     // Si la verificación es exitosa, guarda el payload decodificado en req.currentUser
     req.currentUser = decodedToken.payload;
     // Continúa con el siguiente middleware o ruta
-    proceed();
+    next();
   });
 };
-
 
 // Middleware para verificar roles
 const verifyRoles = (roles) => (req, res, next) => {
   if (!req.currentUser || !roles.includes(req.currentUser.role)) {
-    return res.status(403).json({ message: "Acceso denegado" });
+    return res.status(403).json({ mensaje: "Acceso denegado" });
   }
   next();
 };
 
 // Exporta las funciones para que puedan ser utilizadas en otros módulos
-module.exports = { createAuthToken, verifyAuth, verifyRoles };
-
+export { createAuthToken, verifyAuth, verifyRoles };

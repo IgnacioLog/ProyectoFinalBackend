@@ -1,10 +1,12 @@
 // Importando módulos necesarios
-const crypto = require("crypto");
-const bcrypt = require("bcrypt");
-const UserDAOFactory = require("../models/DAOs/DAOFactory.js");
-const userSchema = require("../models/schemas/users.js");
-const User = require("../models/model/User.js");
-const sendEmail = require("../utils/sendgrid.js");
+import crypto from "crypto";
+import bcrypt from "bcrypt";
+import UserDAOFactory from "../models/DAOs/DAOFactory.js";
+import userSchema from "../models/schemas/users.js";
+import User from "../models/model/User.js";
+
+// Importa la función nombrada dispatchVerificationEmail
+import { dispatchVerificationEmail } from "../utils/sendgrid.js";
 
 // Creando una instancia del servicio de usuario
 const userService = UserDAOFactory.get("users", userSchema);
@@ -49,7 +51,7 @@ class AuthService {
     // Intentando guardar el nuevo usuario y enviar un correo de verificación
     try {
       const savedUser = await userService.saveItem(newUser);
-      sendEmail(savedUser.email, savedUser.username, savedUser.token);
+      dispatchVerificationEmail(savedUser.email, savedUser.username, savedUser.token);
       return savedUser;
     } catch (error) {
       throw new Error("Error registering user");
@@ -73,6 +75,18 @@ class AuthService {
     }
   }
 
+    // Método para verificar un token y confirmar un usuario
+    static async checkUserAccountToken(token) {
+      const user = await userService.getItem({ token });
+      if (user) {
+        user.confirmed = true;
+        user.token = null;
+        return await userService.updateItem(user._id, user);
+      } else {
+        throw new Error("Invalid token");
+      }
+    }
+
   // Método para eliminar un usuario por su ID
   static async deleteUserById(userId) {
     try {
@@ -83,5 +97,8 @@ class AuthService {
   }
 }
 
-// Exportando la clase AuthService para ser utilizada en otros módulos
-module.exports = AuthService;
+// Exportando la clase AuthService
+export default AuthService;
+
+// Exportando la función checkUserAccountToken
+export { checkUserAccountToken };

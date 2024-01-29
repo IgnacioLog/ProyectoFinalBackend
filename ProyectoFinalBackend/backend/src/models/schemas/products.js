@@ -1,5 +1,5 @@
 // Importa la biblioteca mongoose, que se utiliza para trabajar con MongoDB
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Define la estructura del esquema de la mercancía (merchandise)
 const merchandiseSchemaStructure = {
@@ -23,4 +23,4 @@ const merchandiseSchemaStructure = {
 const merchandiseSchema = new mongoose.Schema({ ...merchandiseSchemaStructure });
 
 // Exporta el esquema de la mercancía para que pueda ser utilizado en otros módulos
-module.exports = merchandiseSchema;
+export default merchandiseSchema;

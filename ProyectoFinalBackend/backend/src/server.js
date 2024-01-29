@@ -1,20 +1,21 @@
 // Importando módulos necesarios
-const path = require('path');
-const express = require("express");
-const http = require("http");
-const cors = require("cors");
-const mongoose = require('mongoose');
+import path from 'path';
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 // Cargando variables de entorno desde la ubicación correcta
-require('dotenv').config({ path: path.join(__dirname, '../env') });
+dotenv.config({ path: path.join(__dirname, '../env') });
 
-const settings = require("../config.js");
+import settings from '../config.js';
 
 // Importando rutas
-const authRoutes = require("./router/auth");
-const blogRoutes = require("./router/blog");
-const cartRoutes = require("./router/carts");
-const productRoutes = require("./router/products");
+import authRoutes from './router/auth.js';
+import blogRoutes from './router/blog.js';
+import cartRoutes from './router/carts.js';
+import productRoutes from './router/products.js';
 
 // Creando una instancia de Express y un servidor HTTP
 const app = express();
@@ -67,4 +68,4 @@ mongoose.connect(process.env.MONGO_DATA_BASE_URL)
   });
 
 // Exportando la aplicación Express
-module.exports = app;
+export default app;

@@ -1,9 +1,9 @@
-// Importando módulos necesarios
-const ProductDAOFactory = require("../models/DAOs/DAOFactory.js");
-const productSchema = require("../models/schemas/products.js");
-const Product = require("../models/model/Product.js");
+// Importa módulos necesarios
+import ProductDAOFactory from "../models/DAOs/DAOFactory.js";
+import productSchema from "../models/schemas/products.js";
+import Product from "../models/model/Product.js";
 
-// Creando una instancia del servicio de producto
+// Crea una instancia del servicio de producto
 const productService = ProductDAOFactory.get("products", productSchema);
 
 // Clase ProductService para manejar las operaciones relacionadas con los productos
@@ -22,7 +22,7 @@ class ProductService {
     try {
       return await productService.getItems();
     } catch (error) {
-      throw new Error("Error fetching all products");
+      throw Error("Error fetching all products");
     }
   }
 
@@ -55,6 +55,5 @@ class ProductService {
   }
 }
 
-// Exportando la clase ProductService para ser utilizada en otros módulos
-module.exports = ProductService;
-
+// Exporta la clase ProductService para ser utilizada en otros módulos
+export default ProductService;

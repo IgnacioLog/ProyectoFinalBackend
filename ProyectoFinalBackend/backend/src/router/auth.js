@@ -1,7 +1,7 @@
 // Importando módulos necesarios
-const { Router } = require("express");
-const AuthController = require("../controllers/auth.js");
-const { verifyAuth } = require("../middlewares/auth.js");
+import { Router } from "express";
+import AuthController from "../controllers/auth.js";
+import { verifyAuth } from "../middlewares/auth.js";
 
 // Creando una nueva instancia de Router
 const router = Router();
@@ -25,8 +25,7 @@ router.post("/login", authController.login);
 router.get('/current', verifyAuth, (req, res) => {
     // Devuelve un DTO del usuario con la información necesaria
     // ...
-  });
-
+});
 
 // Ruta para verificar la cuenta del usuario a través de un token
 router.get("/confirm/:token", authController.checkAccountVerificationToken);
@@ -34,5 +33,5 @@ router.get("/confirm/:token", authController.checkAccountVerificationToken);
 // Ruta para eliminar un usuario por su ID
 router.delete("/:userId", authController.delete);
 
-// Exportando el router para ser utilizado en otros módulos
-module.exports = router;
+// Exportando el router como un módulo ES6
+export default router;

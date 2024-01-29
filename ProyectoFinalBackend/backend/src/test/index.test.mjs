@@ -1,7 +1,8 @@
-const chai = require('chai');
-const expect = chai.expect;
-const request = require('supertest');
-const server = require('../server');
+import * as chai from 'chai';
+import request from 'supertest';
+import server from '../server.js';
+
+const { expect } = chai;
 
 describe('Index Route', () => {
     it('should return a welcome message', (done) => {

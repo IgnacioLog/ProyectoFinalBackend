@@ -14,4 +14,4 @@ class Carts {
 }
 
 // Exporta la clase Carts para que pueda ser utilizada en otros módulos
-module.exports = Carts;
+export default Carts;

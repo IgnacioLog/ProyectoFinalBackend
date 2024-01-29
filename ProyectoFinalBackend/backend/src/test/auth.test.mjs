@@ -1,7 +1,10 @@
-const chai = require('chai');
-const expect = chai.expect;
-const request = require('supertest');
-const server = require('../server');
+import * as chai from 'chai';
+import request from 'supertest';
+import server from '../server.js';
+import { checkUserAccountToken } from '../services/auth.js';
+
+
+const { expect } = chai;
 
 describe('Auth API', () => {
     it('should authenticate a user', (done) => {

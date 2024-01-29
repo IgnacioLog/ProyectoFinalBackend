@@ -1,5 +1,5 @@
 // Importa la biblioteca mongoose, que se utiliza para trabajar con MongoDB
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Define la estructura del esquema de la persona (person)
 const personSchemaStructure = {
@@ -22,5 +22,5 @@ const personSchemaStructure = {
 // Crea un nuevo esquema de mongoose utilizando la estructura definida anteriormente
 const personSchema = new mongoose.Schema({ ...personSchemaStructure });
 
-// Exporta el esquema de la persona para que pueda ser utilizado en otros módulos
-module.exports = personSchema;
+// Exporta el esquema de la persona como exportación por defecto
+export default mongoose.model("Person", personSchema);

@@ -1,7 +1,5 @@
-// Importamos la instancia del servicio de productos
-const productInstance = require("../services/products.js");
+import productInstance from "../services/products.js";
 
-// Definimos la clase ProductsController
 class ProductsController {
   // Constructor de la clase
   constructor() {
@@ -18,7 +16,7 @@ class ProductsController {
       res.status(200).json(products);
     } catch (err) {
       // En caso de error, lo mostramos en la consola
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -33,7 +31,7 @@ class ProductsController {
       res.status(200).json(product);
     } catch (err) {
       // En caso de error, enviamos una respuesta con estado 404 y el error
-      res.status(404).json(err);
+      res.status(404).json({ msg: "Producto no encontrado" });
     }
   }
 
@@ -48,7 +46,7 @@ class ProductsController {
       res.status(201).json(savedProduct);
     } catch (err) {
       // En caso de error, lo mostramos en la consola
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -64,7 +62,7 @@ class ProductsController {
       res.status(200).json(updatedProduct);
     } catch (err) {
       // En caso de error, lo mostramos en la consola
-      console.log(err);
+      console.error(err);
     }
   }
 
@@ -79,11 +77,10 @@ class ProductsController {
       res.status(200).json(product);
     } catch (err) {
       // En caso de error, lo mostramos en la consola
-      console.log(err);
+      console.error(err);
     }
   }
 }
 
 // Exportamos una instancia de la clase ProductsController
-module.exports = new ProductsController();
-
+export default new ProductsController();

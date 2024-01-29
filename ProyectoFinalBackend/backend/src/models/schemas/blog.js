@@ -1,5 +1,5 @@
 // Importa la biblioteca mongoose, que se utiliza para trabajar con MongoDB
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Define la estructura del esquema del artículo
 const articleSchemaStructure = {
@@ -17,4 +17,4 @@ const articleSchemaStructure = {
 const articleSchema = new mongoose.Schema({ ...articleSchemaStructure });
 
 // Exporta el esquema del artículo para que pueda ser utilizado en otros módulos
-module.exports = articleSchema;
+export default articleSchema;

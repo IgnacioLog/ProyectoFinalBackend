@@ -1,5 +1,5 @@
 // Importa la biblioteca mongoose, que se utiliza para trabajar con MongoDB
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 // Define la estructura del esquema de la cesta de compras (shopping basket)
 const shoppingBasketSchemaStructure = {
@@ -22,4 +22,4 @@ const shoppingBasketSchemaStructure = {
 const shoppingBasketSchema = new mongoose.Schema({ ...shoppingBasketSchemaStructure });
 
 // Exporta el esquema de la cesta de compras para que pueda ser utilizado en otros módulos
-module.exports = shoppingBasketSchema;
+export default shoppingBasketSchema;

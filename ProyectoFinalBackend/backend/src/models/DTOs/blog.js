@@ -16,4 +16,4 @@ class ArticleDTO {
 }
 
 // Exporta la clase ArticleDTO para que pueda ser utilizada en otros módulos
-module.exports = ArticleDTO;
+export default ArticleDTO;

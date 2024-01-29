@@ -1,9 +1,9 @@
-// Importando módulos necesarios
-const CartDAOFactory = require("../models/DAOs/DAOFactory.js");
-const cartSchema = require("../models/schemas/carts.js");
-const Cart = require("../models/model/Cart.js");
+// Importa módulos necesarios
+import CartDAOFactory from "../models/DAOs/DAOFactory.js";
+import cartSchema from "../models/schemas/carts.js";
+import Cart from "../models/model/Cart.js";
 
-// Creando una instancia del servicio de carrito
+// Crea una instancia del servicio de carrito
 const cartService = CartDAOFactory.get("carts", cartSchema);
 
 // Clase CartService para manejar las operaciones relacionadas con los carritos de compra
@@ -55,6 +55,5 @@ class CartService {
   }
 }
 
-// Exportando la clase CartService para ser utilizada en otros módulos
-module.exports = CartService;
-
+// Exporta la clase CartService para ser utilizada en otros módulos
+export default CartService;

@@ -1,7 +1,7 @@
 // Importando módulos necesarios
-const DAOFile = require("./DAOFile.js");       // DAO para persistencia en archivos
-const DAOMongo = require("./DAOMongo.js");     // DAO para persistencia en MongoDB
-const config = require("../../../config.js");  // Configuraciones generales
+import DAOFile from "./DAOFile.js";       // DAO para persistencia en archivos
+import DAOMongo from "./DAOMongo.js";     // DAO para persistencia en MongoDB
+import config from "../../../config.js";  // Configuraciones generales
 
 class DAOFactory {
   // Método estático para obtener una instancia de DAO basada en la configuración de persistencia
@@ -17,5 +17,5 @@ class DAOFactory {
   }
 }
 
-// Exportando la fábrica DAO para ser utilizada en otros módulos
-module.exports = DAOFactory;
+// Exportando la fábrica DAO como un módulo ES6
+export default DAOFactory;

@@ -56,5 +56,5 @@ class BlogService {
 }
 
 // Exportando la clase BlogService para ser utilizada en otros módulos
-module.exports = BlogService;
+export default BlogService;
 

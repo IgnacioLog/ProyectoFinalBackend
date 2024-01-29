@@ -1,16 +1,15 @@
-// Importando módulos necesarios
-const mailer = require("nodemailer");
-const settings = require("../../config");
+import nodemailer from 'nodemailer';
+import config from '../../config';
 
 // Función para enviar un correo electrónico de verificación
 const dispatchVerificationEmail = async (recipientEmail, userAlias, verificationToken) => {
   // Creando un transportador de correo usando nodemailer
-  let mailTransport = mailer.createTransport({
-    service: "Gmail", // Servicio de correo
+  let mailTransport = nodemailer.createTransport({
+    service: 'Gmail', // Servicio de correo
     port: 587, // Puerto para el servicio de correo
     auth: {
-      user: settings.EMAIL_USER, // Usuario del correo
-      pass: settings.EMAIL_PASSWORD, // Contraseña del correo
+      user: config.EMAIL_USER, // Usuario del correo
+      pass: config.EMAIL_PASSWORD, // Contraseña del correo
     },
   });
 
@@ -18,13 +17,13 @@ const dispatchVerificationEmail = async (recipientEmail, userAlias, verification
   const mailDetails = {
     from: '"cel" <support@cel.com>', // Remitente del correo
     to: `<${recipientEmail}>`, // Destinatario del correo
-    subject: "Cel - Account Verification", // Asunto del correo
-    text: "Please verify your GuitarWorld account", // Texto plano del correo
+    subject: 'Cel - Account Verification', // Asunto del correo
+    text: 'Please verify your GuitarWorld account', // Texto plano del correo
     // Contenido HTML del correo
     html: `
     <p>Dear ${userAlias}, thank you for joining Cel</p>
     <p>Your account is almost set up, just click on the link below to verify: </p>
-    <a href="${settings.WEB_APP_URL}/verify/${verificationToken}">Click to Verify</a>
+    <a href="${config.WEB_APP_URL}/verify/${verificationToken}">Click to Verify</a>
     <p>If you didn't create this account, you can safely ignore this email.</p>
   `,
   };
@@ -41,5 +40,4 @@ const dispatchVerificationEmail = async (recipientEmail, userAlias, verification
 };
 
 // Exportando la función para ser utilizada en otros módulos
-module.exports = dispatchVerificationEmail;
-
+export { dispatchVerificationEmail };

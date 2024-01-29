@@ -1,15 +1,15 @@
-const { compareSync } = require("bcrypt");
-const {
+import { compareSync } from "bcrypt";
+import {
   getAllUsers,
   existUser,
   registerUser,
   loginUser,
   checkUserAccountToken,
   deleteUser,
-} = require("../services/auth.js");
-const { createAuthToken } = require("../middlewares/auth.js");
+} from "../services/auth.js";
+import { createAuthToken } from "../middlewares/auth.js";
 
-class Controller {
+class AuthController {
   // Método para obtener todos los usuarios
   async getAll(req, res) {
     try {
@@ -108,4 +108,4 @@ class Controller {
   }
 }
 
-module.exports = Controller;
+export default AuthController;

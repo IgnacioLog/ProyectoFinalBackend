@@ -1,4 +1,4 @@
-const {
+import {
   createCart,
   getCartByUserId,
   saveProductOnCart,
@@ -7,9 +7,10 @@ const {
   removeProductFromCart,
   removeAllProductsFromCart,
   deleteCart,
-} = require("../services/carts.js");
-const productsInstance = require("../services/products.js");
-const { existUser } = require("../services/auth.js");
+} from "../services/carts.js";
+
+import productsInstance from "../services/products.js";
+import { existUser } from "../services/auth.js";
 
 class CartsController {
   // Constructor de la clase CartsController
@@ -109,5 +110,4 @@ class CartsController {
 }
 
 // Exporta una instancia de la clase CartsController
-module.exports = new CartsController();
-
+export default new CartsController();

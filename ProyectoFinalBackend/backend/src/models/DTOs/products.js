@@ -20,4 +20,4 @@ class ProductDTO {
 }
 
 // Exporta la clase ProductDTO para que pueda ser utilizada en otros módulos
-module.exports = ProductDTO;
+export default ProductDTO;

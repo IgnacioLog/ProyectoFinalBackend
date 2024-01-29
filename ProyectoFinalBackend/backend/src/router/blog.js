@@ -1,24 +1,24 @@
-// Importando módulos necesarios
-const { Router } = require("express");
-const controller = require("../controllers/blog.js");
+// Importa los módulos necesarios
+import { Router } from "express";
+import { getPosts, getPostById, savePost, updatePost, deletePost } from "../controllers/blog.js";
 
-// Creando una nueva instancia de Router
+// Crea una nueva instancia de Router
 const router = Router();
 
 // Ruta para obtener todos los posts del blog
-router.get("/", controller.getPosts);
+router.get("/", getPosts);
 
 // Ruta para obtener un post específico del blog por su ID
-router.get("/:id", controller.getPostById);
+router.get("/:id", getPostById);
 
 // Ruta para guardar un nuevo post en el blog
-router.post("/", controller.savePost);
+router.post("/", savePost);
 
 // Ruta para actualizar un post existente en el blog por su ID
-router.put("/:id", controller.updatePost);
+router.put("/:id", updatePost);
 
 // Ruta para eliminar un post del blog por su ID
-router.delete("/:id", controller.deletePost);
+router.delete("/:id", deletePost);
 
-// Exportando el router para ser utilizado en otros módulos
-module.exports = router;
+// Exporta el router para ser utilizado en otros módulos
+export default router;

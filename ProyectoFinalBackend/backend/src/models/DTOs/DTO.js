@@ -1,8 +1,8 @@
-// Importando los DTOs (Data Transfer Objects) necesarios
-const ArticleDTO = require("./blog");
-const CartDTO = require("./carts");
-const ProductDTO = require("./products");
-const UserDTO = require("./users");
+// Importa las clases DTO necesarias
+import ArticleDTO from "./blog.js";
+import CartDTO from "./carts.js";
+import ProductDTO from "./products.js";
+import UserDTO from "./users.js";
 
 // Función para obtener el DTO adecuado según la colección proporcionada
 const getDTO = (data, collection) => {
@@ -28,4 +28,4 @@ const convertToDTO = (data, collection) => {
 };
 
 // Exporta la función convertToDTO para ser utilizada en otros módulos
-module.exports = convertToDTO;
+export { convertToDTO };

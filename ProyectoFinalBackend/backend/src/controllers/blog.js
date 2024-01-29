@@ -1,4 +1,4 @@
-const blogInstance = require("../services/blog.js");
+import blogInstance from "../services/blog.js";
 
 class BlogController {
   // Constructor de la clase BlogController
@@ -68,4 +68,4 @@ class BlogController {
 }
 
 // Exporta una instancia de la clase BlogController
-module.exports = new BlogController();
+export default new BlogController();

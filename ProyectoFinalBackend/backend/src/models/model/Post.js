@@ -1,5 +1,4 @@
-// Importa la biblioteca Joi, que se utiliza para la validación de datos
-const Joi = require("joi");
+import Joi from "joi";
 
 // Definición de la clase Article
 class Article {
@@ -31,4 +30,4 @@ class Article {
 }
 
 // Exporta la clase Article para que pueda ser utilizada en otros módulos
-module.exports = Article;
+export default Article;

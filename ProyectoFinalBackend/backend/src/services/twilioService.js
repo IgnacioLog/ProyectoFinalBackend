@@ -1,5 +1,5 @@
-const twilio = require('twilio');
-const config = require('../config');
+import twilio from 'twilio';
+import config from '../config';
 
 const client = new twilio(config.TWILIO_ACCOUNT_SID, config.TWILIO_AUTH_TOKEN);
 
@@ -15,4 +15,4 @@ const sendSMS = async (to, body) => {
   }
 };
 
-module.exports = { sendSMS };
+export { sendSMS };

@@ -1,7 +1,6 @@
-// Importando módulos necesarios
-const fs = require("fs");
-const crypto = require("crypto");
-const convertToDTO = require("../DTOs/DTO.js");
+import fs from "fs/promises";
+import crypto from "crypto";
+import { convertToDTO } from "../DTOs/DTO.js";
 
 class DAOFile {
   // Constructor de la clase DAOFile
@@ -13,7 +12,7 @@ class DAOFile {
   // Método para crear un ID único
   async createUniqueId() {
     try {
-      const uniqueId = encryption.randomUUID();
+      const uniqueId = crypto.randomUUID();
       return uniqueId;
     } catch (errorInstance) {
       throw new Error(errorInstance);
@@ -33,7 +32,7 @@ class DAOFile {
 
   // Método para obtener todos los elementos del archivo
   async getAllItems() {
-    const rawData = await fileSystem.promises.readFile(this.filePath, "utf-8");
+    const rawData = await fs.readFile(this.filePath, "utf-8");
     const parsedData = JSON.parse(rawData);
     return transformToDTO(parsedData, this.dataCollection);
   }
@@ -57,7 +56,7 @@ class DAOFile {
       };
       const existingItems = await this.getAllItems();
       const updatedItems = [...existingItems, itemToStore];
-      await fileSystem.promises
+      await fs
         .writeFile(this.filePath, JSON.stringify(updatedItems))
         .then(() => transformToDTO(itemToStore, this.dataCollection))
         .catch((error) => {
@@ -73,7 +72,7 @@ class DAOFile {
     if (itemToUpdate) {
       const remainingItems = items.filter((item) => item._id !== itemId);
       const newItemsList = [...remainingItems, { ...itemToUpdate, ...dataItem }];
-      await fileSystem.promises
+      await fs
         .writeFile(this.filePath, JSON.stringify(newItemsList))
         .then((response) => {
           return transformToDTO({ ...itemToUpdate, ...dataItem }, this.dataCollection);
@@ -88,7 +87,7 @@ class DAOFile {
     const itemToRemove = items.find((item) => item._id === itemId);
     if (itemToRemove) {
       const updatedItems = items.filter((item) => item._id !== itemId);
-      await fileSystem.promises
+      await fs
         .writeFile(this.filePath, JSON.stringify(updatedItems))
         .then((response) => {
           return transformToDTO(itemToRemove, this.dataCollection);
@@ -100,6 +99,4 @@ class DAOFile {
   }
 }
 
-// Exportando la clase DAOFile para ser utilizada en otros módulos
-module.exports = DAOFile;
-
+export default DAOFile;

@@ -1,9 +1,8 @@
-// Importando módulos necesarios
-const crypto = require("crypto");
-const mongoose = require("mongoose");
-const config = require("../../../config.js");
-const { ObjectId } = require("mongodb");
-const convertToDTO = require("../DTOs/DTO.js");
+import crypto from "crypto";
+import mongoose from "mongoose";
+import config from "../../../config.js";
+import { ObjectId } from "mongodb";
+import { convertToDTO } from "../DTOs/DTO.js";
 
 class DAOMongo {
   // Constructor de la clase DAOMongo
@@ -11,7 +10,7 @@ class DAOMongo {
     this.dataCollection = dataCollection;
     // Conexión a la base de datos MongoDB usando Mongoose
     (async () => {
-      mongoose.connect(config.MONGO_DATA_BASE_URL, {
+      await mongoose.connect(config.MONGO_DATA_BASE_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
@@ -21,7 +20,7 @@ class DAOMongo {
   }
 
   // Método para crear un ID único
-  createUniqueIdFunction = () => {
+  createUniqueId = () => {
     try {
       const uniqueId = crypto.randomUUID();
       return uniqueId;
@@ -74,7 +73,7 @@ class DAOMongo {
   updateExistingItem = async (itemId, dataItem) => {
     try {
       const objectId = new ObjectId(itemId);
-      await this.dataModel.updateOne({ objectId }, { ...dataItem });
+      await this.dataModel.updateOne({ _id: objectId }, { ...dataItem });
       const updatedItem = await this.retrieveItemById(objectId);
       return convertToDTO(updatedItem, this.dataCollection);
     } catch (errorInstance) {
@@ -88,16 +87,15 @@ class DAOMongo {
       const itemToRemove = await this.retrieveItemById(itemId);
       if (itemToRemove) {
         const objectId = new ObjectId(itemId);
-        await this.dataModel.findOneAndDelete({ objectId });
+        await this.dataModel.findOneAndDelete({ _id: objectId });
         return convertToDTO(itemToRemove, this.dataCollection);
       }
       return undefined;
     } catch (errorInstance) {
       console.error(errorInstance);
     }
-  }
+  };
 }
 
 // Exportando la clase DAOMongo para ser utilizada en otros módulos
-module.exports = DAOMongo;
-
+export default DAOMongo;

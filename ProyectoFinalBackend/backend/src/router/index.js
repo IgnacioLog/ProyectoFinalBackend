@@ -1,8 +1,8 @@
-// Importando los routers de cada módulo
-const productsRouter = require("./products.js"); // Router para gestionar productos
-const cartsRouter = require("./carts.js");       // Router para gestionar carritos
-const authRouter = require("./auth.js");         // Router para gestionar autenticación
-const blogRouter = require("./blog.js");         // Router para gestionar el blog
+// Importa los routers de cada módulo
+import productsRouter from "./products.js"; // Router para gestionar productos
+import cartsRouter from "./carts.js";       // Router para gestionar carritos
+import authRouter from "./auth.js";         // Router para gestionar autenticación
+import blogRouter from "./blog.js";         // Router para gestionar el blog
 
-// Exportando los routers para ser utilizados en otros módulos
-module.exports = { productsRouter, cartsRouter, authRouter, blogRouter };
+// Exporta los routers para ser utilizados en otros módulos
+export { productsRouter, cartsRouter, authRouter, blogRouter };

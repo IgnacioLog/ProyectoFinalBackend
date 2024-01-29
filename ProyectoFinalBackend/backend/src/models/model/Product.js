@@ -1,5 +1,4 @@
-// Importa la biblioteca Joi, que se utiliza para la validación de datos
-const Joi = require("joi");
+import Joi from "joi";
 
 // Definición de la clase Item
 class Item {
@@ -37,4 +36,4 @@ class Item {
 }
 
 // Exporta la clase Item para que pueda ser utilizada en otros módulos
-module.exports = Item;
+export default Item;

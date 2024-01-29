@@ -1,5 +1,4 @@
-// Importa la biblioteca Joi, que se utiliza para la validación de datos
-const Joi = require("joi");
+import Joi from "joi";
 
 // Definición de la clase Cart
 class Cart {
@@ -14,12 +13,14 @@ class Cart {
     // Define el esquema de validación para un objeto cart usando Joi
     const CartSchema = Joi.object({
       // El cart debe tener un array de items
-      items: Joi.array().items(Joi.object({
-        // Cada item debe tener un _id que es una cadena y es obligatorio
-        _id: Joi.string().required(),
-        // Cada item debe tener una cantidad que es un número y es obligatorio
-        quantity: Joi.number().required(),
-      })),
+      items: Joi.array().items(
+        Joi.object({
+          // Cada item debe tener un _id que es una cadena y es obligatorio
+          _id: Joi.string().required(),
+          // Cada item debe tener una cantidad que es un número y es obligatorio
+          quantity: Joi.number().required(),
+        })
+      ),
       // El cart puede tener un shopperId que es una cadena
       shopperId: Joi.string(),
       // El cart puede tener una marca de tiempo (timestamp) de creación que es una fecha
@@ -34,4 +35,4 @@ class Cart {
 }
 
 // Exporta la clase Cart para que pueda ser utilizada en otros módulos
-module.exports = Cart;
+export default Cart;
