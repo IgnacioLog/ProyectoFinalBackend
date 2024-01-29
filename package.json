@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --require @babel/register --exit 'src/test/*.test.js'",
     "start": "node src/server.js -e production",
     "dev": "nodemon src/server.js"
   },
@@ -24,11 +24,19 @@
     "mongodb": "^5.1.0",
     "mongoose": "^7.0.3",
     "nodemailer": "^6.9.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
     "twilio": "^4.20.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "@babel/core": "^7.17.8",
+    "@babel/cli": "^7.17.8",
+    "@babel/preset-env": "^7.17.8",
+    "@babel/register": "^7.17.8",
+    "chai": "^5.0.3",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.4"
   }
-
-
 }
