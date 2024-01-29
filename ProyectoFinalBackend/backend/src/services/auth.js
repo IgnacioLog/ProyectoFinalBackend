@@ -76,7 +76,7 @@ class AuthService {
   }
 
     // Método para verificar un token y confirmar un usuario
-    static async checkUserAccountToken(token) {
+    static async checkUserNameToken(token) {
       const user = await userService.getItem({ token });
       if (user) {
         user.confirmed = true;
@@ -101,4 +101,4 @@ class AuthService {
 export default AuthService;
 
 // Exportando la función checkUserAccountToken
-export { checkUserAccountToken };
+export { checkUserNameToken };

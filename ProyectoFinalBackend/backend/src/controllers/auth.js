@@ -20,6 +20,39 @@ class AuthController {
     }
   }
 
+
+    // Método para cargar documentos de usuario
+  async uploadDocuments(req, res) {
+    try {
+      const { files } = req; // Los archivos cargados
+      const userId = req.params.uid; // ID del usuario que carga los documentos
+
+      if (!files || files.length === 0) {
+        return res.status(400).json({ message: 'No se cargaron documentos.' });
+      }
+
+      // Obtener el usuario de la base de datos
+      const user = await getUserById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado.' });
+      }
+
+      // Procesar los archivos y guardar las referencias en el usuario
+      const documents = files.map(file => ({
+        name: file.originalname,
+        reference: `/uploads/${file.filename}`
+      }));
+
+      // Agregar los documentos al usuario y actualizarlo en la base de datos
+      user.documents = user.documents ? [...user.documents, ...documents] : documents;
+      await updateUser(userId, user);
+
+      res.status(200).json({ message: 'Documentos cargados con éxito', documents: documents });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
   // Método para registrar un nuevo usuario
   async registerUser(req, res) {
     try {

@@ -27,6 +27,11 @@ class User {
       verified: Joi.boolean(),
       // El usuario puede tener una fecha de registro (registrationDate) que es una fecha
       registrationDate: Joi.date(),
+      documents: Joi.array().items(Joi.object({
+        name: Joi.string().required(),
+        reference: Joi.string().required()
+      })),
+      last_connection: Joi.date()
     });
 
     // Valida el objeto user proporcionado contra el esquema definido anteriormente
