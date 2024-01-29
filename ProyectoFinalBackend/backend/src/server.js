@@ -5,6 +5,8 @@ import http from 'http';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import multer from 'multer'; // Importando Multer
+import fs from 'fs';
 
 // Cargando variables de entorno desde la ubicación correcta
 dotenv.config({ path: path.join(__dirname, '../env') });
@@ -16,6 +18,22 @@ import authRoutes from './router/auth.js';
 import blogRoutes from './router/blog.js';
 import cartRoutes from './router/carts.js';
 import productRoutes from './router/products.js';
+
+// Configuración de Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    const uploadPath = path.join(__dirname, '../uploads'); // Asegúrate de que este directorio exista
+    if (!fs.existsSync(uploadPath)){
+      fs.mkdirSync(uploadPath, { recursive: true });
+    }
+    cb(null, uploadPath);
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
 
 // Creando una instancia de Express y un servidor HTTP
 const app = express();

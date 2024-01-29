@@ -1,7 +1,7 @@
 // Importando módulos necesarios
-const BlogDAOFactory = require("../models/DAOs/DAOFactory.js");
-const blogSchema = require("../models/schemas/blog.js");
-const Post = require("../models/model/Post.js");
+import BlogDAOFactory from "../models/DAOs/DAOFactory.js";
+import blogSchema from "../models/schemas/blog.js";
+import Post from "../models/model/Post.js";
 
 // Creando una instancia del servicio de blog
 const blogService = BlogDAOFactory.get("blog", blogSchema);
@@ -57,4 +57,3 @@ class BlogService {
 
 // Exportando la clase BlogService para ser utilizada en otros módulos
 export default BlogService;
-

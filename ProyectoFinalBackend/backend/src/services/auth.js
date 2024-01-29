@@ -75,18 +75,6 @@ class AuthService {
     }
   }
 
-    // Método para verificar un token y confirmar un usuario
-    static async checkUserNameToken(token) {
-      const user = await userService.getItem({ token });
-      if (user) {
-        user.confirmed = true;
-        user.token = null;
-        return await userService.updateItem(user._id, user);
-      } else {
-        throw new Error("Invalid token");
-      }
-    }
-
   // Método para eliminar un usuario por su ID
   static async deleteUserById(userId) {
     try {
@@ -97,8 +85,20 @@ class AuthService {
   }
 }
 
+// Definiendo la función checkUserNameToken fuera de la clase AuthService
+async function checkUserAccountToken(token) {
+  const user = await userService.getItem({ token });
+  if (user) {
+    user.confirmed = true;
+    user.token = null;
+    return await userService.updateItem(user._id, user);
+  } else {
+    throw new Error("Invalid token");
+  }
+}
+
 // Exportando la clase AuthService
 export default AuthService;
 
-// Exportando la función checkUserAccountToken
-export { checkUserNameToken };
+// Exportando la función checkUserNameToken
+export { checkUserAccountToken };

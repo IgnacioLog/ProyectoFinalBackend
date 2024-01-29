@@ -1,57 +1,41 @@
 import { compareSync } from "bcrypt";
-import {
-  getAllUsers,
-  existUser,
-  registerUser,
-  loginUser,
-  checkUserAccountToken,
-  deleteUser,
-} from "../services/auth.js";
+import AuthService from "../services/auth.js"; // Importar toda la clase AuthService
 import { createAuthToken } from "../middlewares/auth.js";
+import { checkUserAccountToken } from "../services/auth.js"; // Importación independiente
 
 class AuthController {
   // Método para obtener todos los usuarios
   async getAll(req, res) {
     try {
-      const users = await getAllUsers();
+      const users = await AuthService.getAllUsers();
       res.status(201).json(users);
     } catch (error) {
       res.json({ msg: error.message });
     }
   }
 
+// Método para cargar documentos de usuario
+async uploadDocuments(req, res) {
+  try {
+    const { files } = req; // Los archivos cargados
+    const userId = req.params.uid; // ID del usuario que carga los documentos
 
-    // Método para cargar documentos de usuario
-  async uploadDocuments(req, res) {
-    try {
-      const { files } = req; // Los archivos cargados
-      const userId = req.params.uid; // ID del usuario que carga los documentos
-
-      if (!files || files.length === 0) {
-        return res.status(400).json({ message: 'No se cargaron documentos.' });
-      }
-
-      // Obtener el usuario de la base de datos
-      const user = await getUserById(userId);
-      if (!user) {
-        return res.status(404).json({ message: 'Usuario no encontrado.' });
-      }
-
-      // Procesar los archivos y guardar las referencias en el usuario
-      const documents = files.map(file => ({
-        name: file.originalname,
-        reference: `/uploads/${file.filename}`
-      }));
-
-      // Agregar los documentos al usuario y actualizarlo en la base de datos
-      user.documents = user.documents ? [...user.documents, ...documents] : documents;
-      await updateUser(userId, user);
-
-      res.status(200).json({ message: 'Documentos cargados con éxito', documents: documents });
-    } catch (error) {
-      res.status(400).json({ message: error.message });
+    if (!files || files.length === 0) {
+      return res.status(400).json({ message: 'No se cargaron documentos.' });
     }
+
+    // Ejemplo de respuesta, reemplaza esto con tu lógica de procesamiento de documentos
+    const processedDocuments = files.map(file => ({
+      name: file.originalname,
+      url: `/path/to/${file.filename}`
+    }));
+
+    res.status(200).json({ message: 'Documentos cargados con éxito', documents: processedDocuments });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
+}
+
 
   // Método para registrar un nuevo usuario
   async registerUser(req, res) {
@@ -128,17 +112,17 @@ class AuthController {
     res.json({ msg: "Usuario confirmado correctamente" });
   }
 
-  // Método para eliminar un usuario
-  async delete(req, res) {
-    try {
-      const { userId } = req.params;
+// Método para eliminar un usuario
+async delete(req, res) {
+  try {
+    const { userId } = req.params;
 
-      await deleteUser(userId);
-      res.json({ msg: "Usuario eliminado correctamente" });
-    } catch (error) {
-      res.json({ msg: error.message });
-    }
+    await AuthService.deleteUserById(userId);
+    res.json({ msg: "Usuario eliminado correctamente" });
+  } catch (error) {
+    res.json({ msg: error.message });
   }
+}
 }
 
 export default AuthController;

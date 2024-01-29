@@ -1,71 +1,63 @@
-import blogInstance from "../services/blog.js";
+import BlogService from "../services/blog.js"; // Importar BlogService
 
 class BlogController {
-  // Constructor de la clase BlogController
-  constructor() {
-    this.blog = blogInstance; // Se inicializa con una instancia del servicio de blog
-  }
-
-  // Método para obtener todos los posts
-  async getPosts(req, res) {
+  // Método para obtener todas las publicaciones
+  static async getPosts(req, res) {
     try {
-      const posts = await this.blog.getPosts(); // Llama al método getPosts del servicio de blog
-      res.status(200).json(posts); // Envía los posts como respuesta con un código de estado 200
-    } catch (err) {
-      console.log(err); // Registra el error en la consola
-      res.status(500).json({ msg: "Error al obtener los posts" }); // Envía un mensaje de error con un código de estado 500
+      const posts = await BlogService.getAllPosts();
+      res.status(200).json(posts);
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   }
 
-  // Método para obtener un post específico por ID
-  async getPostById(req, res) {
+  // Método para obtener una publicación por su ID
+  static async getPostById(req, res) {
     try {
-      const { id } = req.params; // Extrae el ID del post de los parámetros de la solicitud
-      const post = await this.blog.getPostById(id); // Llama al método getPostById del servicio de blog
-      res.status(200).json(post); // Envía el post como respuesta con un código de estado 200
-    } catch (err) {
-      console.log(err); // Registra el error en la consola
-      res.status(500).json({ msg: "Error al obtener el post por ID" }); // Envía un mensaje de error con un código de estado 500
+      const post = await BlogService.getPostById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: "Post not found" });
+      }
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   }
 
-  // Método para guardar un nuevo post
-  async savePost(req, res) {
+  // Método para crear una nueva publicación
+  static async savePost(req, res) {
     try {
-      const post = req.body; // Extrae el cuerpo del post de la solicitud
-      const savedPost = await this.blog.savePost(post); // Llama al método savePost del servicio de blog
-      res.status(201).json(savedPost); // Envía el post guardado como respuesta con un código de estado 201
-    } catch (err) {
-      console.log(err); // Registra el error en la consola
-      res.status(500).json({ msg: "Error al guardar el post" }); // Envía un mensaje de error con un código de estado 500
+      const newPost = await BlogService.createPost(req.body);
+      res.status(201).json(newPost);
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   }
 
-  // Método para actualizar un post específico por ID
-  async updatePost(req, res) {
+  // Método para actualizar una publicación
+  static async updatePost(req, res) {
     try {
-      const { id } = req.params; // Extrae el ID del post de los parámetros de la solicitud
-      const post = req.body; // Extrae el cuerpo del post de la solicitud
-      const updatedPost = await this.blog.updatePost(id, post); // Llama al método updatePost del servicio de blog
-      res.status(200).json(updatedPost); // Envía el post actualizado como respuesta con un código de estado 200
-    } catch (err) {
-      console.log(err); // Registra el error en la consola
-      res.status(500).json({ msg: "Error al actualizar el post por ID" }); // Envía un mensaje de error con un código de estado 500
+      const updatedPost = await BlogService.updatePost(req.params.id, req.body);
+      res.status(200).json(updatedPost);
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   }
 
-  // Método para eliminar un post específico por ID
-  async deletePost(req, res) {
+  // Método para eliminar una publicación
+  static async deletePost(req, res) {
     try {
-      const { id } = req.params; // Extrae el ID del post de los parámetros de la solicitud
-      const post = await this.blog.deletePost(id); // Llama al método deletePost del servicio de blog
-      res.status(200).json(post); // Envía el post eliminado como respuesta con un código de estado 200
-    } catch (err) {
-      console.log(err); // Registra el error en la consola
-      res.status(500).json({ msg: "Error al eliminar el post por ID" }); // Envía un mensaje de error con un código de estado 500
+      await BlogService.deletePost(req.params.id);
+      res.status(200).json({ msg: "Post deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ msg: error.message });
     }
   }
 }
 
-// Exporta una instancia de la clase BlogController
-export default new BlogController();
+// Exportando cada método individualmente
+export const getPosts = BlogController.getPosts;
+export const getPostById = BlogController.getPostById;
+export const savePost = BlogController.savePost;
+export const updatePost = BlogController.updatePost;
+export const deletePost = BlogController.deletePost;
