@@ -1,28 +1,16 @@
-import {
-  createCart,
-  getCartByUserId,
-  saveProductOnCart,
-  getCarts,
-  updateProductOnCart,
-  removeProductFromCart,
-  removeAllProductsFromCart,
-  deleteCart,
-} from "../services/carts.js";
-
+import CartService from "../services/carts.js";
 import productsInstance from "../services/products.js";
-import { existUser } from "../services/auth.js";
+import AuthService from "../services/auth.js";
 
 class CartsController {
-  // Constructor de la clase CartsController
   constructor() {
-    this.products = productsInstance; // Se inicializa con una instancia del servicio de productos
+    this.products = productsInstance;
   }
 
-  // Método para crear un carrito para un usuario específico
   async createUserCart(req, res) {
     try {
       const { userId } = req.params;
-      const newCart = await createCart(userId);
+      const newCart = await CartService.createCart({ userId: userId });
       res.json(newCart);
     } catch (error) {
       res.json({ msg: error.message });
@@ -43,17 +31,16 @@ class CartsController {
   async getByUserId(req, res) {
     try {
       const { userId } = req.params;
-      const isValidUser = await existUser({ _id: userId });
+      const isValidUser = await AuthService.existUser({ _id: userId });
 
       if (!isValidUser) {
-        const error = new Error("El usuario no existe");
-        return res.status(400).json({ msg: error.message });
+        return res.status(400).json({ msg: "El usuario no existe" });
       }
 
-      const cart = await getCartByUserId(userId);
+      const cart = await CartService.getCartByUserId(userId);
       res.status(200).json(cart);
     } catch (err) {
-      return res.status(400).json({ msg: err.message });
+      res.status(400).json({ msg: err.message });
     }
   }
 

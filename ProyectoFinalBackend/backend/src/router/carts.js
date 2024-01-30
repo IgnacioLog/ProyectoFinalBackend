@@ -1,31 +1,22 @@
-// Importa los módulos necesarios
 import { Router } from "express";
-import { createUserCart, getByUserId, removeAllProducts, saveProduct, updateProductOnCart, deleteCart } from "../controllers/cart.js";
+import CartsController from "../controllers/cart.js";
 import { verifyAuth } from "../middlewares/auth.js";
-import Ticket from '../models/model/Tickets.js'; // Utilizando import para el modelo
+import Ticket from '../models/model/Tickets.js';
 
-// Crea una nueva instancia de Router
 const router = Router();
 
-// Ruta para crear un carrito para un usuario específico. Se requiere autenticación previa (middleware 'verifyAuth')
-router.get("/create/:userId", verifyAuth, createUserCart);
+router.get("/create/:userId", verifyAuth, CartsController.createUserCart);
 
-// Ruta para obtener el carrito de un usuario específico. Se requiere autenticación previa
-router.get("/:userId", verifyAuth, getByUserId);
+router.get("/:userId", verifyAuth, CartsController.getByUserId);
 
-// Ruta para remover todos los productos del carrito de un usuario específico. Se requiere autenticación previa
-router.put("/remove/:userId", verifyAuth, removeAllProducts);
+router.put("/remove/:userId", verifyAuth, CartsController.removeAllProducts);
 
-// Ruta para guardar un producto en el carrito de un usuario específico. Se requiere autenticación previa
-router.put("/:userId", verifyAuth, saveProduct);
+router.put("/:userId", verifyAuth, CartsController.saveProduct);
 
-// Ruta para actualizar o remover un producto específico del carrito de un usuario. Se requiere autenticación previa
-router.put("/:userId/:productId", verifyAuth, updateProductOnCart);
+router.put("/:userId/:productId", verifyAuth, CartsController.updateProductOnCart);
 
-// Ruta para eliminar el carrito de un usuario específico. Se requiere autenticación previa
-router.delete("/:userId", verifyAuth, deleteCart);
+router.delete("/:userId", verifyAuth, CartsController.deleteCart);
 
-// Ruta para finalizar la compra
 router.post('/:cid/purchase', verifyAuth, async (req, res) => {
     try {
         const { cid } = req.params; // ID del carrito

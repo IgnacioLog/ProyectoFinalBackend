@@ -1,12 +1,9 @@
-// Importa módulos necesarios
 import CartDAOFactory from "../models/DAOs/DAOFactory.js";
 import cartSchema from "../models/schemas/carts.js";
 import Cart from "../models/model/Cart.js";
 
-// Crea una instancia del servicio de carrito
 const cartService = CartDAOFactory.get("carts", cartSchema);
 
-// Clase CartService para manejar las operaciones relacionadas con los carritos de compra
 class CartService {
   // Método para obtener un carrito por su ID
   static async getCartById(cartId) {

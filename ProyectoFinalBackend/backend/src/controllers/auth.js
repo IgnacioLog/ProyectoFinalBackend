@@ -1,7 +1,6 @@
 import { compareSync } from "bcrypt";
 import AuthService from "../services/auth.js"; // Importar toda la clase AuthService
 import { createAuthToken } from "../middlewares/auth.js";
-import { checkUserAccountToken } from "../services/auth.js"; // Importación independiente
 
 class AuthController {
   // Método para obtener todos los usuarios
@@ -102,16 +101,17 @@ async uploadDocuments(req, res) {
 
   // Método para verificar el token de la cuenta
   async checkAccountVerificationToken(req, res) {
-    const { token } = req.params;
-    const confirmedUser = await checkUserAccountToken(token);
-
-    if (!confirmedUser?._id) {
-      return res.status(403).json({ msg: "Token no válido" });
+    try {
+      const { token } = req.params;
+      const confirmedUser = await AuthService.checkUserAccountToken(token);
+      if (!confirmedUser?._id) {
+        return res.status(403).json({ msg: "Token no válido" });
+      }
+      res.json({ msg: "Usuario confirmado correctamente" });
+    } catch (error) {
+      res.status(400).json({ msg: error.message });
     }
-
-    res.json({ msg: "Usuario confirmado correctamente" });
   }
-
 // Método para eliminar un usuario
 async delete(req, res) {
   try {
