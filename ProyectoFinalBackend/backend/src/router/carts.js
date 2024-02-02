@@ -37,7 +37,7 @@ router.post('/:cid/purchase', verifyAuth, async (req, res) => {
         // Guardar el nuevo ticket en la base de datos
         await newTicket.save();
 
-        // Lógica para actualizar el stock de productos (suponiendo que tienes un modelo de producto)
+        // Lógica para actualizar el stock de productos 
         for (const item of cart.items) {
             const product = await Product.findById(item.itemId);
             if (product) {
