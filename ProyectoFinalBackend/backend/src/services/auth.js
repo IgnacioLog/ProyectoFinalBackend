@@ -100,3 +100,6 @@ class AuthService {
 // Exportando la clase AuthService y los métodos estáticos
 export default AuthService;
 export { AuthService };
+export const checkUserNameToken = () => {
+  // Implementación de la función
+};
