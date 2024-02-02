@@ -9,7 +9,7 @@ import multer from 'multer'; // Middleware para manejar la carga de archivos
 import fs from 'fs'; // Módulo para trabajar con el sistema de archivos
 
 // Cargando variables de entorno desde la ubicación correcta
-dotenv.config({ path: new URL('../env', import.meta.url).pathname });
+dotenv.config(); // Asegúrate de que el archivo .env esté en la raíz de tu proyecto
 
 import settings from '../config.js'; // Importando configuración personalizada
 
@@ -71,9 +71,10 @@ app.use((error, req, res, next) => {
 });
 
 // Conexión a MongoDB y arranque del servidor
-mongoose.connect(process.env.MONGO_DATA_BASE_URL) // Conecta a la base de datos MongoDB utilizando la URL especificada en las variables de entorno
+const dbUri = process.env.MONGO_DATA_BASE_URL; // Asegúrate de que el nombre de la variable coincida con tu archivo .env
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true }) // Conecta a la base de datos MongoDB utilizando la URL especificada en las variables de entorno
   .then(() => {
-    console.log("Succesfully connected to database");
+    console.log("Successfully connected to database");
 
     // Iniciando el servidor en el puerto 8080
     server.listen(8080, () => {
