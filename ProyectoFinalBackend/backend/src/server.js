@@ -70,6 +70,7 @@ app.use((error, req, res, next) => {
   }
 });
 
+
 // Conexión a MongoDB y arranque del servidor
 const dbUri = process.env.MONGO_DATA_BASE_URL; // Asegúrate de que el nombre de la variable coincida con tu archivo .env
 mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true }) // Conecta a la base de datos MongoDB utilizando la URL especificada en las variables de entorno
