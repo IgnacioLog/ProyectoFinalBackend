@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-aplicacion-backend
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: mi-aplicacion-backend
+  template:
+    metadata:
+      labels:
+        app: mi-aplicacion-backend
+    spec:
+      containers:
+      - name: mi-aplicacion-backend
+        image: tu-usuario-dockerhub/mi-aplicacion-backend:ultima
+        ports:
+        - containerPort: 8080
+        env:
+        - name: MONGO_URL
+          value: mongodb+srv://coderhouse:coderhouse@cluster0.rtyo969.mongodb.net/?retryWrites=true&w=majority
+        imagePullPolicy: IfNotPresent  
