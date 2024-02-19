@@ -7,6 +7,7 @@ import mongoose from 'mongoose'; // Biblioteca para trabajar con MongoDB
 import dotenv from 'dotenv'; // Módulo para cargar variables de entorno desde un archivo .env
 import multer from 'multer'; // Middleware para manejar la carga de archivos
 import fs from 'fs'; // Módulo para trabajar con el sistema de archivos
+import compression from 'compression'; // Módulo para trabajar con compresssion gzip y brotli
 
 // Cargando variables de entorno desde la ubicación correcta
 dotenv.config(); // Asegúrate de que el archivo .env esté en la raíz de tu proyecto
@@ -37,6 +38,7 @@ const upload = multer({ storage: storage }); // Middleware de Multer para maneja
 
 // Creando una instancia de Express y un servidor HTTP
 const app = express(); // Inicializa una instancia de Express
+app.use(compression()); // Habilita la compresión para todas las respuestas
 const server = http.createServer(app); // Crea un servidor HTTP utilizando Express
 
 // Configuración de CORS (Cross-Origin Resource Sharing)
@@ -62,13 +64,12 @@ app.use("/api/carts", cartRoutes); // Usa las rutas de carritos de compra en /ap
 app.use("/api/products", productRoutes); // Usa las rutas de productos en /api/products
 
 // Middleware para manejar errores
-app.use((error, req, res, next) => {
-  if (error) {
-    res.status(500).send(`Encountered an issue: ${error.message}`); // Envía una respuesta de error si ocurre un error
-  } else {
-    next();
-  }
+app.use((err, req, res, next) => {
+  const errorCode = err.status || 500;
+  const errorMessage = err.message || 'Ocurrió un error inesperado.';
+  res.status(errorCode).json({ error: errorMessage });
 });
+
 
 
 // Conexión a MongoDB y arranque del servidor

@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "@stripe/react-stripe-js": "^2.5.0",
-    "@stripe/stripe-js": "^3.0.3"
+    "@stripe/stripe-js": "^3.0.3",
+    "compression": "^1.7.4",
+    "express-compression": "^1.0.2",
+    "faker": "^6.6.6"
   }
 }

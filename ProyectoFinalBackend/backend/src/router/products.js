@@ -1,10 +1,23 @@
 // Importa módulos necesarios
 import { Router } from "express";
+import faker from 'faker';
 import controller from "../controllers/products.js";
 import { verifyAuth } from "../middlewares/auth.js";
 
 // Crea una nueva instancia de Router
 const router = Router();
+
+
+// Ruta para manejar mocking
+router.get('/mockingproducts', (req, res) => {
+    const products = Array.from({ length: 100 }).map(() => ({
+      name: faker.commerce.productName(),
+      price: faker.commerce.price(),
+      description: faker.commerce.productDescription(),
+    }));
+  
+    res.json(products);
+  });
 
 // Ruta para obtener todos los productos
 router.get("/", controller.getProducts);

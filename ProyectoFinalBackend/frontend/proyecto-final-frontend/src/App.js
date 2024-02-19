@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react';
 import './App.css';
-import PaymentForm from '../components/PaymentForm.js'; // Asegúrate de que la ruta de importación sea correcta
+import PaymentForm from '../components/PaymentForm';
 
 function App() {
   return (
