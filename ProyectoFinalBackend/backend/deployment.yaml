@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mi-aplicacion-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mi-aplicacion-backend
+  template:
+    metadata:
+      labels:
+        app: mi-aplicacion-backend
+    spec:
+      containers:
+      - name: mi-aplicacion-backend
+        image: mi-imagen-docker:latest
+        ports:
+        - containerPort: 8080
