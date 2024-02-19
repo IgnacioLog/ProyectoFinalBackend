@@ -1,4 +1,4 @@
-import { getUserById, updateUser, verifyDocumentsForPremium } from "../services/userServices"; // Asume funciones existentes en userService
+import { getUserById, updateUser, verifyDocumentsForPremium } from "../services/userServices";
 
 class UsersController {
   // Método para cargar documentos del usuario
@@ -18,7 +18,7 @@ class UsersController {
 
       const documents = files.map(file => ({
         name: file.originalname,
-        reference: `/uploads/${file.filename}` // Ruta de archivo
+        reference: `/uploads/${file.filename}`
       }));
 
       user.documents = user.documents ? [...user.documents, ...documents] : documents;
@@ -51,6 +51,28 @@ class UsersController {
       res.status(200).json({ message: 'Usuario actualizado a premium con éxito.' });
     } catch (error) {
       res.status(400).json({ message: error.message });
+    }
+  }
+
+   // Método para obtener todos los usuarios
+   async getAllUsers(req, res) {
+    try {
+      const users = await getAllUsers();
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+  // Método para eliminar usuarios inactivos
+  async deleteInactiveUsers(req, res) {
+    try {
+      const inactiveUsers = await findInactiveUsers();
+      const inactiveUserIds = inactiveUsers.map(user => user.id);
+      await deleteUsersByIds(inactiveUserIds);
+      res.json({ message: `Usuarios inactivos eliminados: ${inactiveUserIds.length}` });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
     }
   }
 }
